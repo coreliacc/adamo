@@ -10,11 +10,14 @@ app.use(bodyParser.json());
 
 // Configura la conexión a PostgreSQL
 const pool = new Pool({
-    user: 'postgres',
-    host: 'localhost',
-    database: 'adamo',
-    password: 'Asss1221.',
-    port: 5432,
+    user: process.env.DB_USER || 'adamo_db_user',
+    host: process.env.DB_HOST || 'dpg-ct2aptggph6c73a5a9p0-a.virginia-postgres.render.com',
+    database: process.env.DB_NAME || 'adamo_db',
+    password: process.env.DB_PASSWORD || 'j0LWS7IvrIi3vZPVLWbyTQDxhBkRIpsR',
+    port: process.env.DB_PORT || 5432,
+    ssl: {
+        rejectUnauthorized: false, // Importante para evitar errores con Render
+    },
 });
 
 // Endpoint para obtener provincias
@@ -72,7 +75,7 @@ app.post('/api/buscarDireccion', async(req, res) => {
     }
 });
 
-const PORT = 5000;
+const PORT = process.env.PORT || 5000; // Render asignará automáticamente un puerto
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
 });
